@@ -23,14 +23,6 @@ services:
       - --save ""
       - --appendonly no
 
-  db:
-    image: postgres:13-alpine
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-
   web:
     build:
       context: .
@@ -38,7 +30,6 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
       - redis
     working_dir: /app
     ports:
@@ -54,7 +45,6 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
       - redis
     command: docker/web/celery/worker/run.sh
 
